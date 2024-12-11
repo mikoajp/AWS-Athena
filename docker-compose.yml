@@ -14,6 +14,8 @@ services:
             MYSQL_PASSWORD: admin
         volumes:
             - mysql_data:/var/lib/mysql
+        networks:
+            - app-network
 
     minio:
         image: minio/minio
@@ -28,7 +30,44 @@ services:
         command: server /data --console-address ":9001"
         volumes:
             - minio_data:/data
+        networks:
+            - app-network
+
+    laravel-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel-app
+        restart: always
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql
+            - minio
+        environment:
+            APP_KEY: base64:K2gI2V3CcVfnXglsrcyzfMnmdSaAf8BKniQ7KOfs3Yo=
+            APP_ENV: local
+            APP_DEBUG: "true"
+            DB_CONNECTION: mysql
+            DB_HOST: mysql
+            DB_PORT: 3306
+            DB_DATABASE: awsAthena
+            DB_USERNAME: admin
+            DB_PASSWORD: admin
+            FILESYSTEM_DRIVER: s3
+            AWS_ACCESS_KEY_ID: minioadmin
+            AWS_SECRET_ACCESS_KEY: minioadmin
+            AWS_BUCKET: your-bucket-name
+            AWS_URL: http://minio:9000
+        networks:
+            - app-network
 
 volumes:
     mysql_data:
     minio_data:
+
+networks:
+    app-network:
+        driver: bridge
