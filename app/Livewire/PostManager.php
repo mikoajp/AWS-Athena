@@ -9,8 +9,9 @@ class PostManager extends Component
     public $posts;
     public $title = '';
     public $content = '';
+    public $isEditing = false;
     public $postId = null; // Define $postId as a public property
-
+    public $showCreateForm = false;
     protected $rules = [
         'title' => 'required|string|max:255',
         'content' => 'required|string',
@@ -19,6 +20,17 @@ class PostManager extends Component
     public function mount()
     {
         $this->fetchPosts();
+    }
+
+    public function showCreate()
+    {
+        $this->resetInputs(); // Reset form inputs
+        $this->showCreateForm = true;
+    }
+
+    public function hideCreate()
+    {
+        $this->showCreateForm = false;
     }
 
     public function fetchPosts()
@@ -42,6 +54,7 @@ class PostManager extends Component
 
     public function edit($id)
     {
+        $this->isEditing = true;
         $post = Post::find($id);
 
         if (!$post) {
@@ -59,28 +72,22 @@ class PostManager extends Component
     public function update()
     {
         if (!$this->postId) {
-            session()->flash('error', 'No post selected for update.');
             return;
         }
 
         $this->validate();
 
         $post = Post::find($this->postId);
+        if ($post) {
+            $post->update([
+                'title' => $this->title,
+                'content' => $this->content,
+            ]);
 
-        if (!$post) {
-            session()->flash('error', 'Post not found for updating.');
-            return;
+            session()->flash('message', 'Post updated successfully.');
+            $this->resetInputs();
+            $this->fetchPosts();
         }
-
-        $post->update([
-            'title' => $this->title,
-            'content' => $this->content,
-        ]);
-
-        $this->dispatch('postUpdated'); // Zmiana z emit na dispatch
-        session()->flash('success', 'Post updated successfully.');
-        $this->resetInputs();
-        $this->fetchPosts();
     }
 
     public function delete($id)
@@ -103,6 +110,10 @@ class PostManager extends Component
         $this->title = '';
         $this->content = '';
         $this->postId = null; // Reset $postId
+    }
+    public function cancelEdit()
+    {
+        $this->resetInputs();
     }
 
     public function render()
