@@ -1,10 +1,12 @@
 <div class="max-w-4xl mx-auto p-4">
-
     <!-- Show Create Button -->
     @if(!$showCreateForm && !$postId)
         <button wire:click="showCreate" class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
             Create Post
         </button>
+        <a href="{{ route('posts.pdf') }}" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">
+            Download Posts as PDF
+        </a>
     @endif
 
     <!-- Create Form -->
@@ -93,7 +95,8 @@
         </tbody>
     </table>
 
-    @if (session()->has('message'))
+
+@if (session()->has('message'))
         <div class="mt-4 p-4 rounded-lg bg-green-100 text-green-700">
             {{ session('message') }}
         </div>

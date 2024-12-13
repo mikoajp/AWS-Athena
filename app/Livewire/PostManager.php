@@ -10,7 +10,7 @@ class PostManager extends Component
     public $title = '';
     public $content = '';
     public $isEditing = false;
-    public $postId = null; // Define $postId as a public property
+    public $postId = null;
     public $showCreateForm = false;
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -24,7 +24,7 @@ class PostManager extends Component
 
     public function showCreate()
     {
-        $this->resetInputs(); // Reset form inputs
+        $this->resetInputs();
         $this->showCreateForm = true;
     }
 
@@ -126,7 +126,7 @@ class PostManager extends Component
     {
         $this->title = '';
         $this->content = '';
-        $this->postId = null; // Reset $postId
+        $this->postId = null;
     }
     public function cancelEdit()
     {
