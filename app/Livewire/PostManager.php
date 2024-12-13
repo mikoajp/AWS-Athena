@@ -48,12 +48,20 @@ class PostManager extends Component
         ]);
 
         session()->flash('success', 'Post created successfully.');
+        $this->resetCreateForm();
         $this->resetInputs();
         $this->fetchPosts();
     }
 
+    public function resetCreateForm()
+    {
+        $this->title = '';
+        $this->content = '';
+        $this->showCreateForm = false;
+    }
     public function edit($id)
     {
+        $this->resetEditState();
         $this->isEditing = true;
         $post = Post::find($id);
 
@@ -62,9 +70,17 @@ class PostManager extends Component
             return;
         }
 
-        $this->postId = $post->id; // Assign the post's ID to $postId
+        $this->postId = $post->id;
         $this->title = $post->title;
         $this->content = $post->content;
+    }
+
+    public function resetEditState()
+    {
+        $this->isEditing = false;
+        $this->postId = null;
+        $this->title = '';
+        $this->content = '';
     }
 
     protected $listeners = ['postUpdated' => '$refresh'];
@@ -93,17 +109,18 @@ class PostManager extends Component
     public function delete($id)
     {
         $post = Post::find($id);
-
-        if (!$post) {
-            session()->flash('error', 'Post not found for deletion.');
-            return;
+        if ($post) {
+            $post->delete();
+            session()->flash('message', 'Post deleted successfully!');
+            session()->flash('type', 'bg-green-100 text-green-700');
+            $this->resetEditState();
+            $this->fetchPosts();
+        } else {
+            session()->flash('message', 'Post not found.');
+            session()->flash('type', 'bg-red-100 text-red-700');
         }
-
-        $post->delete();
-
-        session()->flash('success', 'Post deleted successfully.');
-        $this->fetchPosts();
     }
+
 
     public function resetInputs()
     {

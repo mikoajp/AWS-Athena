@@ -8,7 +8,7 @@
     @endif
 
     <!-- Create Form -->
-    @if($showCreateForm && !$postId)
+    @if($showCreateForm)
         <form wire:submit.prevent="create" class="mb-6 bg-gray-50 p-4 rounded-lg border">
             <h2 class="text-lg font-semibold mb-4">Create New Post</h2>
             <div class="mb-4">
