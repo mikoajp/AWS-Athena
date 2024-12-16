@@ -29,11 +29,10 @@ $ docker-compose up
 ### 3. Konfiguracja
 
 W katalogu projektu uruchom komendy:
-npm run build
-npm run dev
 ```
-
-Dostosuj ustawienia w pliku `.env` do swoich potrzeb.
+$ npm run build
+$ npm run dev
+```
 ### 4. Sprawdzenie działania aplikacji
 
 Po uruchomieniu kontenerów aplikacja powinna być dostępna pod adresem:
