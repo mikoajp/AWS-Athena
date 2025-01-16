@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
     mysql:
         image: mysql:8.0
         container_name: mysql-container
         restart: always
         ports:
-            - "3306:3306"
+            - "3307:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: awsAthena
@@ -43,6 +41,8 @@ services:
             - "8000:8000"
         volumes:
             - .:/var/www/html
+            - ./docker/scripts:/docker-scripts
+        entrypoint: [ "/docker-scripts/entrypoint.sh" ]
         depends_on:
             - mysql
             - minio
