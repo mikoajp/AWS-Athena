@@ -30,6 +30,7 @@ $ docker-compose up
 
 W katalogu projektu uruchom komendy:
 ```
+$ npm run install
 $ npm run build
 $ npm run dev
 ```
