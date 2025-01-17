@@ -1,3 +1,5 @@
+#!/bin/bash
+
 OS=$(uname -s)
 case "$OS" in
     Linux*)
