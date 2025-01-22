@@ -39,16 +39,9 @@ $ npm run dev
 Po uruchomieniu kontenerów aplikacja powinna być dostępna pod adresem:
 
 ```
-http://0.0.0.0:8000
+http://127.0.0.1:8000
 ```
 
 ```
 
-### 6. Zatrzymanie kontenerów
-
-Aby zatrzymać kontenery, użyj polecenia:
-
-```
-$ docker-compose down
-```
 
