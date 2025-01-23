@@ -41,9 +41,6 @@ RUN a2enmod rewrite headers
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-RUN npm run build
-
-
 EXPOSE 8000
 
 COPY docker/scripts/entrypoint.sh /usr/local/bin/

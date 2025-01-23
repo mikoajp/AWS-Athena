@@ -1,3 +1,9 @@
+volumes:
+    mysql_data:
+    minio_data:
+networks:
+    app-network:
+        driver: bridge
 services:
     mysql:
         image: mysql:8.0
@@ -31,6 +37,15 @@ services:
         networks:
             - app-network
 
+    mailhog:
+        image: mailhog/mailhog
+        container_name: mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        networks:
+            - app-network
+
     laravel-app:
         build:
             context: .
@@ -49,6 +64,7 @@ services:
         depends_on:
             - mysql
             - minio
+            - mailhog
         environment:
             APP_KEY: base64:K2gI2V3CcVfnXglsrcyzfMnmdSaAf8BKniQ7KOfs3Yo=
             APP_ENV: local
@@ -64,13 +80,12 @@ services:
             AWS_SECRET_ACCESS_KEY: minioadmin
             AWS_BUCKET: your-bucket-name
             AWS_URL: http://minio:9000
+            MAIL_MAILER: smtp
+            MAIL_HOST: smtp.gmail.com
+            MAIL_PORT: 587
+            MAIL_USERNAME: mikoajmicht@gmail.com
+            MAIL_PASSWORD: mrde qwlv kzlz nlqz
+            MAIL_ENCRYPTION: tls
+            MAIL_FROM_ADDRESS: mikoajmicht@gmail.com
         networks:
             - app-network
-
-volumes:
-    mysql_data:
-    minio_data:
-
-networks:
-    app-network:
-        driver: bridge
