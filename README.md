@@ -24,17 +24,8 @@ Uruchom kontenery za pomocą Docker Compose:
 ```
 $ docker-compose build
 $ docker-compose up
-
 ```
-### 3. Konfiguracja
-
-W katalogu projektu uruchom komendy:
-```
-$ npm run install
-$ npm run build
-$ npm run dev
-```
-### 4. Sprawdzenie działania aplikacji
+### 3. Sprawdzenie działania aplikacji
 
 Po uruchomieniu kontenerów aplikacja powinna być dostępna pod adresem:
 
